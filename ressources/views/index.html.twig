@@ -1,0 +1,78 @@
+{% extends "layout.html.twig" %}
+
+{# Titre de la Page #}
+{% block title %} Accueil | TechNews {% endblock %}
+
+{# Contenu de la Page #}
+{% block contenu %}
+<div class="row">
+    <!--colleft-->
+    <div class="col-md-8 col-sm-12">
+        <div class="box-caption">
+            <span>spotlight</span>
+        </div>
+        <!--sportlight-->
+        <section class="owl-carousel owl-spotlight">
+            {% for article in spotlight %}
+                <div>
+                    <article class="spotlight-item">
+                        <div class="spotlight-img">
+                            <img alt="" src="{{ asset('images/product/'~article.FEATUREDIMAGEARTICLE) }}" class="img-responsive" />
+                            <a href="#" class="cate-tag">{{ article.LIBELLECATEGORIE }}</a>
+                        </div>
+                        <div class="spotlight-item-caption">
+                            <h2 class="font-heading">
+                                <a href="#">
+                                    {{ article.TITREARTICLE }}
+                                </a>
+                            </h2>
+                            <div class="meta-post">
+                                <a href="#">
+                                    {{ article.PRENOMAUTEUR }} {{ article.NOMAUTEUR }}
+                                </a>
+                                <em></em>
+                                <span>
+                                    {{ article.DATECREATIONARTICLE }}
+                                </span>
+                            </div>
+                            
+                            {# Accroche à faire via un Filtre Twig #}
+
+                        </div>
+                    </article>
+                </div>
+            {% endfor %}
+        </section>
+    
+        <!--spotlight-thumbs-->
+        <section class="spotlight-thumbs">
+            <div class="row">
+                {% for article in articles %}
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="spotlight-item-thumb">
+                            <div class="spotlight-item-thumb-img">
+                                <a href="#">
+                                    <img alt="{{ article.TITREARTICLE }}" src="{{ asset('images/product/'~article.FEATUREDIMAGEARTICLE) }}" class="img-responsive" />
+                                </a>
+                                <a href="#" class="cate-tag">{{ article.LIBELLECATEGORIE }}</a>
+                            </div>
+                            <h3><a href="#">{{ article.TITREARTICLE }}</a></h3>
+                            <div class="meta-post">
+                                <a href="#">
+                                    {{ article.PRENOMAUTEUR }} {{ article.NOMAUTEUR }}
+                                </a>
+                                <em></em>
+                                <span>
+                                    {{ article.DATECREATIONARTICLE }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+
+    {% include 'inc/sidebar.html' %}
+
+{% endblock %}

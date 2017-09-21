@@ -3,6 +3,7 @@
 use Silex\Application;
 use TechNews\Provider\NewsControllerProvider;
 use TechNews\Provider\AdminControllerProvider;
+use Silex\Provider\AssetServiceProvider;
 
 #1 : Importation de l'Autoloader
 require_once __DIR__.'/../vendor/autoload.php';
@@ -17,8 +18,64 @@ $app['debug'] = true;
 $app->mount('/', new NewsControllerProvider());
 $app->mount('/admin', new AdminControllerProvider());
 
-#5 : Execution de l'Application
+# 5 : Activation de Twig
+  # : composere require twig/twig
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => [
+        __DIR__.'/../ressources/views',
+        __DIR__.'/../ressources/layout'
+    ]
+));
+
+#6 : Activation de Asset
+ # : use Silex\Provider\AssetServiceProvider;
+$app->register(new AssetServiceProvider());
+
+#7 : Doctrine DBAL & Idiorm
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+    'db.options'    => array(
+        'driver'    => 'pdo_mysql',
+        'host'      => 'localhost',
+        'dbname'    => 'technews-lyon',
+        'user'      => 'root',
+        'password'  => ''
+    ),
+));
+
+$app->register(new \Idiorm\Silex\Provider\IdiormServiceProvider(), array(
+    'idiorm.db.options' => array(
+        'connection_string' => 'mysql:host=localhost;dbname=technews-lyon',
+        'username' => 'root',
+        'password' => '',
+        'id_column_overrides' => array(
+            'article'       => 'IDARTICLE',
+            'view_articles' => 'IDARTICLE'
+        )
+    )
+));
+
+#8.1 Récupération des Catégories
+$app['technews_categories'] = function() use($app) {
+    return $app['db']->fetchAll('SELECT * FROM categorie');
+};
+
+#8.2 Récupérations des Tags
+$app['technews_tags'] = function() use($app) {
+    return $app['db']->fetchAll('SELECT * FROM tags');
+};
+
+#8.3 Récupération des catégories avec Idiorm
+$app['idiorm_categories'] = function() use ($app) {
+    return $app['idiorm.db']->for_table('categorie')->find_result_set();  
+};
+
+#9 : Execution de l'Application
 $app->run();
+
+
+
+
+
 
 
 
