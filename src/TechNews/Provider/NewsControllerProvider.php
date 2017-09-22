@@ -31,7 +31,7 @@ class NewsControllerProvider implements ControllerProviderInterface
                 # Je spécifie le type de paramètre attendu avec une Regex
                 ->assert('libellecategorie', '[^/]+')
                 # Je peux attribuer une valeur par défaut.
-                ->value('libellecategorie', 'computer')
+                ->value('libellecategorie', 'computing')
                 # Nom de ma Route
                 ->bind('news_categorie');
             

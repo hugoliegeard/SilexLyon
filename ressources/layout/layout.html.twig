@@ -28,13 +28,15 @@
 {% endblock %}
 
 {% block body %}
+
     <div class="loader" id="page-loader">
         <div class="loading-wrapper">
         </div>
     </div>
 
     {# Menu du Site #}
-    {% include "inc/menu.html" %}
+    {# include "inc/menu.html" #}
+    {{ render(controller('TechNews\\Controller\\NewsController::menu')) }}
 
     {# Contenu du Site #}
     {% block contenu %}{% endblock %}

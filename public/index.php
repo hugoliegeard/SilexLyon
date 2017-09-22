@@ -18,14 +18,20 @@ $app['debug'] = true;
 $app->mount('/', new NewsControllerProvider());
 $app->mount('/admin', new AdminControllerProvider());
 
-# 5 : Activation de Twig
-  # : composere require twig/twig
+#5.1 : Activation de Twig
+ # : composere require twig/twig
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => [
         __DIR__.'/../ressources/views',
         __DIR__.'/../ressources/layout'
     ]
 ));
+
+#5.2 : Ajout des Extentions TechNews pour Twig
+$app->extend('twig', function($twig, $app) {
+    $twig->addExtension(new \TechNews\Extension\TechNewsTwigExtension());
+    return $twig;
+});
 
 #6 : Activation de Asset
  # : use Silex\Provider\AssetServiceProvider;
@@ -69,7 +75,11 @@ $app['idiorm_categories'] = function() use ($app) {
     return $app['idiorm.db']->for_table('categorie')->find_result_set();  
 };
 
-#9 : Execution de l'Application
+#9 : Permet le rendu d'un controller dans la vue
+# https://silex.symfony.com/doc/2.0/providers/twig.html#rendering-a-controller
+$app->register(new Silex\Provider\HttpFragmentServiceProvider());
+
+#10 : Execution de l'Application
 $app->run();
 
 
