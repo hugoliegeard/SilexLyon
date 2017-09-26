@@ -49,13 +49,19 @@ class NewsControllerProvider implements ControllerProviderInterface
             
             # Connexion à l'Administration
             $controllers
-            ->get('/connexion', 'TechNews\Controller\NewsController::connexionAction')
-            ->bind('news_connexion');
+                ->get('/connexion', 'TechNews\Controller\NewsController::connexionAction')
+                ->bind('news_connexion');
             
             # Inscription d'un Membre
             $controllers
-            ->get('/inscription', 'TechNews\Controller\NewsController::inscriptionAction')
-            ->bind('news_inscription');
+                ->get('/inscription', 'TechNews\Controller\NewsController::inscriptionAction')
+                ->bind('news_inscription');
+            
+            # Traitement Post
+            $controllers
+                ->post('/inscription', 'TechNews\Controller\NewsController::inscriptionPost')
+                ->bind('news_inscription_post');
+                
         
         # On retourne la liste des controllers (ControllerCollection)
         return $controllers;

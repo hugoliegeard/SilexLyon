@@ -17,6 +17,16 @@
 				</div>
 			{% endif %}
 			
+			{% if global.request.get('inscription') == 'success' %}
+				<div class="alert alert-success">
+					<p>
+						<i class="fa fa-thumbs-up" aria-hidden="true"></i> 
+						Félicitation, votre inscription est effective.
+						<br />Vous pouvez maintenant vous connecter.
+					</p>
+				</div>
+			{% endif %}
+			
 			<form action="{{ url('admin_login_check') }}" class="form-horizontal" method="POST">
 			
 				<!-- Email -->

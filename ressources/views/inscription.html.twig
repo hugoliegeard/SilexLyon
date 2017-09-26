@@ -1,0 +1,65 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+{% set active = 'inscription' %}
+
+{% block contenu %}
+	
+	<div class="row">
+		<div class="col-xs-6 col-xs-push-3">
+			
+			<h2 class="text-center">Inscription d'un Membre</h2>
+			
+			<form action="{{ path('news_inscription_post') }}" class="form-horizontal" method="POST">
+				
+				<!-- Prénom et Nom -->
+				<div class="form-group">
+					<div class="col-xs-6">
+						<input type="text" name="PRENOMAUTEUR" required
+							class="form-control" placeholder="Saisissez votre Prénom" /> 
+					</div>
+					<div class="col-xs-6">
+						<input type="text" name="NOMAUTEUR" required
+							class="form-control" placeholder="Saisissez votre Nom" /> 
+					</div>
+				</div>
+				
+				<!-- Email et Mot de Passe -->
+				<div class="form-group">
+					<div class="col-xs-6">
+						<input type="email" name="EMAILAUTEUR" required
+							class="form-control" placeholder="Saisissez votre Email" /> 
+					</div>
+					<div class="col-xs-6">
+						<input type="password" name="MDPAUTEUR" required
+							class="form-control" placeholder="*******" /> 
+					</div>
+				</div>
+				
+				<!-- Role du Membre pour les droits d'accès -->
+				<div class="form-group">
+					<div class="col-xs-12">
+						<select name="ROLESAUTEUR" class="form-control">
+							<option value="ROLE_AUTEUR">Auteur</option>
+							{% if is_granted('ROLE_ADMIN') %}
+								<option value="ROLE_ADMIN">Administrateur</option>
+							{% endif %}
+						</select>
+					</div>
+				</div>
+				
+				<input type="submit" class="btn btn-block btn-primary" value="M'inscrire" />
+				
+			</form>
+			
+		</div>
+	</div>
+	
+{% endblock %}
+
+
+
+
+
+
+

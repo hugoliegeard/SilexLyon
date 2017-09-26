@@ -142,8 +142,42 @@ class NewsController
      * Affichage de la Page Connexion
      * @return Symfony\Component\HttpFoundation\Response;
      */
-    public function inscriptionAction() {
-        return '<h1>Inscription</h1>';
+    public function inscriptionAction(Application $app) {
+        return $app['twig']->render('inscription.html.twig');
+    }
+    
+    /**
+     * Traitement POST du Formulaire d'Inscription
+     * @param Application $app
+     * @param Request $request
+     */
+    public function inscriptionPost(Application $app, Request $request) {
+        
+        # Vérification et la Sécurisation des données POST
+        # Sanitize...
+        # ...
+        
+        # Connexion à la BDD
+        $auteur = $app['idiorm.db']->for_table('auteur')->create();
+        
+        # Affectation des valeurs
+        $auteur->PRENOMAUTEUR   = $request->get('PRENOMAUTEUR');
+        $auteur->NOMAUTEUR      = $request->get('NOMAUTEUR');
+        $auteur->EMAILAUTEUR    = $request->get('EMAILAUTEUR');
+        $auteur->MDPAUTEUR      = $app['security.encoder.digest']
+                        ->encodePassword($request->get('MDPAUTEUR'), '');         
+        $auteur->ROLESAUTEUR    = $request->get('ROLESAUTEUR');
+        
+        # On persiste en BDD
+        $auteur->save();
+        
+        # On envoi un email de confirmation ou de bienvenue...
+        # On envoi une notification à l'administrateur...
+        # ...
+        
+        # On redirige l'utilisateur sur la page de connexion
+        return $app->redirect('connexion?inscription=success');
+        
     }
     
 }
