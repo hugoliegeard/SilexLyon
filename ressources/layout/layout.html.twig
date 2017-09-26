@@ -36,7 +36,7 @@
 
     {# Menu du Site #}
     {# include "inc/menu.html" #}
-    {{ render(controller('TechNews\\Controller\\NewsController::menu')) }}
+    {{ render(controller('TechNews\\Controller\\NewsController::menu', { 'active' : active } )) }}
 
     {# Contenu du Site #}
     {% block contenu %}{% endblock %}

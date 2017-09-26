@@ -46,6 +46,16 @@ class NewsControllerProvider implements ControllerProviderInterface
             $controllers
                 ->get('/infos',
                     [ $this, 'infoAction' ]);
+            
+            # Connexion à l'Administration
+            $controllers
+            ->get('/connexion', 'TechNews\Controller\NewsController::connexionAction')
+            ->bind('news_connexion');
+            
+            # Inscription d'un Membre
+            $controllers
+            ->get('/inscription', 'TechNews\Controller\NewsController::inscriptionAction')
+            ->bind('news_inscription');
         
         # On retourne la liste des controllers (ControllerCollection)
         return $controllers;

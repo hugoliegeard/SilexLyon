@@ -3,6 +3,8 @@
     {{ global.request.get('libellecategorie') | capitalize }}
 {% endblock %}
 
+{% set active = libellecategorie | capitalize %}
+
 {% block contenu %}
 <div class="row">
     <!--colleft-->

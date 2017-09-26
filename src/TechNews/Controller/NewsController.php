@@ -2,6 +2,7 @@
 namespace TechNews\Controller;
 
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
 
 class NewsController
 {
@@ -89,13 +90,16 @@ class NewsController
      * Génération du Menu dans le Layout
      * @param Application $app
      */
-    public function menu(Application $app) {
+    public function menu($active, Application $app) {
         
         # -- Récupération des Catégories
         $categories = $app['idiorm.db']->for_table('categorie')->find_result_set();
         
         # -- Transmission à la Vue
-        return $app['twig']->render('menu.html.twig', ['categories' => $categories]);
+        return $app['twig']->render('menu.html.twig', [
+            'categories' => $categories,
+            'active'     => $active
+        ]);
         
     }
     
@@ -120,6 +124,26 @@ class NewsController
            'sidebar'    => $sidebar,
            'special'    => $special
         ]);
+    }
+    
+    /**
+     * Affichage de la Page Connexion
+     * @use Symfony\Component\HttpFoundation\Request;
+     * @return Symfony\Component\HttpFoundation\Response;
+     */
+    public function connexionAction(Application $app, Request $request) {
+        return $app['twig']->render('connexion.html.twig',[
+            'error'         =>  $app['security.last_error']($request),
+            'last_username' =>  $app['session']->get('_security.last_username')
+        ]);
+    }
+    
+    /**
+     * Affichage de la Page Connexion
+     * @return Symfony\Component\HttpFoundation\Response;
+     */
+    public function inscriptionAction() {
+        return '<h1>Inscription</h1>';
     }
     
 }

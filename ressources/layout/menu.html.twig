@@ -2,16 +2,21 @@
 <nav class="menu-res hidden-lg hidden-md ">
 	<div class="menu-res-inner">
 		<ul>
-				<li>
+				<li {% if active == 'accueil' %}class="current"{%endif%}>
 					<a href="{{ url('news_index') }}">Accueil</a>
 				</li>
 				{% for categorie in app.idiorm_categories %}
-					<li>
+					<li {% if(active == categorie.LIBELLECATEGORIE) %}class="current"{%endif%}>
 						<a href="{{ url('news_categorie', { libellecategorie : categorie.LIBELLECATEGORIE | lower }) }}">  
 							{{ categorie.LIBELLECATEGORIE }}
 						</a>
 					</li>
 				{% endfor %}
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<li><a href="#">Déconnexion</a></li>
+				{% else %}
+					<li><a href="#">Connexion</a></li>
+				{% endif %}
 		</ul>
 	</div>
 </nav>
@@ -34,16 +39,21 @@
 				<span>MENU</span>
 			</div>
 			<ul class="hidden-sm hidden-xs">
-				<li>
+				<li {% if active == 'accueil' %}class="current"{%endif%}>
 					<a href="{{ url('news_index') }}">Accueil</a>
 				</li>
 				{% for categorie in app.idiorm_categories %}
-					<li>
+					<li {% if(active == categorie.LIBELLECATEGORIE) %}class="current"{%endif%}>
 						<a href="{{ url('news_categorie', { libellecategorie : categorie.LIBELLECATEGORIE | lower }) }}">  
 							{{ categorie.LIBELLECATEGORIE }}
 						</a>
 					</li>
 				{% endfor %}
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<li><a href="{{ path('deconnexion') }}">Déconnexion</a></li>
+				{% else %}
+					<li><a href="{{ url('news_connexion') }}">Connexion</a></li>
+				{% endif %}
 			</ul>
 			<div class="search-icon">
 				<div class="search-icon-inner">
@@ -55,3 +65,4 @@
 				</div>
 			</div>
 		</nav>
+		
