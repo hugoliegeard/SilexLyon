@@ -1,6 +1,11 @@
 <?php
 
 use Silex\Provider\AssetServiceProvider;
+use Silex\Provider\FormServiceProvider;
+use Silex\Provider\CsrfServiceProvider;
+use Silex\Provider\LocaleServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
+use Silex\Provider\ValidatorServiceProvider;
 
 #1 : Activation du Debuggage
 $app['debug'] = true;
@@ -24,16 +29,24 @@ $app->extend('twig', function($twig, $app) {
 });
     
 #5 : Activation de Asset
-# : use Silex\Provider\AssetServiceProvider;
 $app->register(new AssetServiceProvider());
 
-#6 : Doctrine DBAL et Idiorm (BDD)
+#6 : Importation pour les Formulaires
+$app->register(new FormServiceProvider());
+$app->register(new CsrfServiceProvider());
+$app->register(new ValidatorServiceProvider());
+$app->register(new LocaleServiceProvider());
+$app->register(new TranslationServiceProvider(), array(
+    'translator.domains' => array(), 
+));
+
+#7 : Doctrine DBAL et Idiorm (BDD)
 require PATH_RESSOURCES . '/config/database.config.php';
 
-#7 : Sécurisation de notre Application
+#8 : Sécurisation de notre Application
 require PATH_RESSOURCES . '/config/security.php';
 
-# 8 : On retourne $app
+#9 : On retourne $app
 return $app;
 
 
